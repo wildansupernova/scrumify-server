@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Group;
 use Google_Client;
+use Illuminate\Support\Facades\Auth;
+
 class UserController extends Controller
 {
     public function generateToken(Request $req) {
@@ -21,7 +23,10 @@ class UserController extends Controller
                 if ($user) {
                     // Found
                     $token = $user->createToken('accessToken')->accessToken;
-                    return json_encode(['token' => $token]);
+                    return json_encode([
+                        'user' => $user->toArray(),
+                        'token' => $token
+                    ]);
                 } else {
                     // Not Found 
                     $user = User::create([
@@ -30,7 +35,10 @@ class UserController extends Controller
                         'google_id' => $userid,
                     ]);
                     $token = $user->createToken('accessToken')->accessToken;
-                    return json_encode(['token' => $token]);
+                    return json_encode([
+                        'user' => $user->toArray(),
+                        'token' => $token
+                    ]);
                 }
             } else {
                 // Invalid ID token
@@ -47,5 +55,13 @@ class UserController extends Controller
 
     public function testMasukAuthAPI(Request $req) {
         return $req->user();
+    }
+
+    public function logOut(Request $req) {
+        $user = $req->user();
+        $user->token()->revoke();
+        return response(json_encode([
+            'msg' => ['Log Out Success']
+        ]), 200);
     }
 }

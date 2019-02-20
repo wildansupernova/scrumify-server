@@ -18,5 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/generateToken', 'UserController@generateToken');
+Route::post('/login', 'UserController@generateToken');
+Route::post('/logout', 'UserController@logOut')->middleware('auth:api');
 Route::get('/wildan', 'UserController@testMasukAuthAPI')->middleware('auth:api');
