@@ -9,6 +9,9 @@ use Google_Client;
 class UserController extends Controller
 {
     public function generateToken(Request $req) {
+        // $user = User::find(1)->first();
+        // $token = $user->createToken('accessToken')->accessToken;
+        // return json_encode(['token' => $token]);
         if ($req->has('tokenGoogle')) {
             $client = new Google_Client(['client_id' => env('GOOGLE_SIGN_IN_KEY')]);  // Specify the CLIENT_ID of the app that accesses the backend
             $payload = $client->verifyIdToken($req->tokenGoogle);
