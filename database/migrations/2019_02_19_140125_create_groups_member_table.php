@@ -14,8 +14,10 @@ class CreateGroupsMemberTable extends Migration
     public function up()
     {
         Schema::create('groups_member', function (Blueprint $table) {
-            $table->integer('group_id')->foreign('group_id')->references('id')->on('groups');
-            $table->integer('user_id')->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->primary(['group_id', 'user_id']);
             $table->string('role');
             $table->timestamps();

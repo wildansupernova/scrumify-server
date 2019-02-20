@@ -15,7 +15,8 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('group_id')->foreign('group_id')->references('id')->on('groups');
+            $table->unsignedInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups');
             $table->string('taskname');
             $table->string('description');
             $table->string('status_kanban');

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/wildan', 'UserController@testMasukAuthAPI')->middleware('auth:api');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -20,4 +20,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login', 'UserController@generateToken');
 Route::post('/logout', 'UserController@logOut')->middleware('auth:api');
-Route::get('/wildan', 'UserController@testMasukAuthAPI')->middleware('auth:api');
+
+
+
+
+//Task
+Route::post('/tasks', 'TaskController@store')->middleware('auth:api');
+Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
+Route::put('/tasks/{taskId}', 'TaskController@update')->middleware('auth:api');
+Route::delete('/tasks/{taskId}', 'TaskController@delete')->middleware('auth:api');
+
+// Route::group(['middleware' => 'auth:api'], function()
+// {
+//     Route::resource('tasks','TaskController', ['except' => ['index', 'edit', 'create']]);
+// });

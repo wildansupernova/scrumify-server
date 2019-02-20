@@ -10,7 +10,7 @@ class TasksMember extends Model
     protected $table = 'tasks_member';
     public $incrementing = false;
     protected $primaryKey = ['task_id', 'user_id'];
-        /**
+    /**
      * Set the keys for a save update query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
