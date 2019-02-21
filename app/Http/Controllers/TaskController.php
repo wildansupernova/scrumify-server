@@ -83,13 +83,15 @@ class TaskController extends Controller
         $result = $request->has([
             'taskname',
             'description',
-            'status_kanban'
+            'status_kanban',
+            'complexity'
         ]);
         if ($result) {
             $form = [
                 'taskname' => $request->taskname,
                 'description' => $request->description,
-                'status_kanban' => $request->status_kanban
+                'status_kanban' => $request->status_kanban,
+                'complexity' => $request->complexity
             ];
             $task = Task::find($taskId)->first();
             if ($task) {
@@ -97,16 +99,18 @@ class TaskController extends Controller
                 $task->save();
                 return response(json_encode([
                     'data' => $task->toArray(),
-                    'msg' => ['Success']
+                    'statusMessage'=> "success",
                 ]), 200);
             } else {
                 return response(json_encode([
-                    'err' => ['Not Found']
+                    'data' => NULL,
+                    'statusMessage'=> "error",
                 ]), 404);
             }
         } else {
             return response(json_encode([
-                'err' => ['Bad Request']
+                'data' => NULL,
+                'statusMessage'=> 'error',
             ]), 400);
         }
     }
@@ -121,7 +125,8 @@ class TaskController extends Controller
     {
         Task::destroy($taskId);
         return response(json_encode([
-            'msg' => ['deleted']
+            'data' => NULL,
+            'statusMessage'=> 'success',
         ]), 200);
     }
 }

@@ -23,9 +23,10 @@ class UserController extends Controller
                 if ($user) {
                     // Found
                     $token = $user->createToken('accessToken')->accessToken;
+                    $user['token'] = $token;
                     return json_encode([
                         'user' => $user->toArray(),
-                        'token' => $token
+                        'statusMessage'=> "success",
                     ]);
                 } else {
                     // Not Found 
@@ -35,20 +36,23 @@ class UserController extends Controller
                         'google_id' => $userid,
                     ]);
                     $token = $user->createToken('accessToken')->accessToken;
+                    $user['token'] = $token;
                     return json_encode([
-                        'user' => $user->toArray(),
-                        'token' => $token
+                        'data' => $user->toArray(),
+                        'statusMessage'=> "success",
                     ]);
                 }
             } else {
                 // Invalid ID token
                 return response(json_encode([
-                    'err' => ['Invalid Token: Bad Request']
+                    'data' => NULL,
+                    'statusMessage'=> "error",
                 ]), 400);
             }
         } else {
             return response(json_encode([
-                'err' => ['Invalid Token: Bad Request']
+                'data' => NULL,
+                'statusMessage'=> "error",            
             ]), 400);
         }
     }
@@ -61,7 +65,8 @@ class UserController extends Controller
         $user = $req->user();
         $user->token()->revoke();
         return response(json_encode([
-            'msg' => ['Log Out Success']
+            'data' => NULL,
+            'statusMessage'=> "success",
         ]), 200);
     }
 }
