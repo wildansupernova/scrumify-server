@@ -25,7 +25,7 @@ class UserController extends Controller
                     $token = $user->createToken('accessToken')->accessToken;
                     $user['token'] = $token;
                     return json_encode([
-                        'user' => $user->toArray(),
+                        'data' => $user->toArray(),
                         'statusMessage'=> "success",
                     ]);
                 } else {

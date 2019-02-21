@@ -28,17 +28,22 @@ Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
 Route::put('/tasks/{taskId}', 'TaskController@update')->middleware('auth:api');
 Route::delete('/tasks/{taskId}', 'TaskController@delete')->middleware('auth:api');
 
+//Task Member
+Route::delete('/task_member', 'TasksMemberController@removeMember')->middleware('auth:api');
+Route::post('/task_member', 'TasksMemberController@addMember')->middleware('auth:api');
+
 //Group
-Route::post('/tasks', 'GroupController@store')->middleware('auth:api');
-Route::get('/tasks/{groupId}', 'GroupController@show')->middleware('auth:api');
-Route::put('/tasks', 'GroupController@update')->middleware('auth:api');
-Route::delete('/tasks', 'GroupController@delete')->middleware('auth:api');
+Route::post('/group', 'GroupController@store')->middleware('auth:api');
+Route::get('/group/{groupId}', 'GroupController@show')->middleware('auth:api');
+Route::put('/group', 'GroupController@update')->middleware('auth:api');
+Route::delete('/group', 'GroupController@delete')->middleware('auth:api');
 
 //GroupMember
-Route::post('/tasks', 'GroupMemberController@store')->middleware('auth:api');
-Route::get('/tasks/{groupId}', 'GroupMemberController@show')->middleware('auth:api');
-Route::put('/tasks/{groupId}/{userId}', 'GroupMemberController@update')->middleware('auth:api');
-Route::delete('/tasks/{groupId}/{userId}', 'GroupMemberController@delete')->middleware('auth:api');
+Route::post('/group_member', 'GroupMemberController@store')->middleware('auth:api');
+Route::get('/group_member/{groupId}', 'GroupMemberController@show')->middleware('auth:api');
+Route::put('/group_member/{groupId}/{userId}', 'GroupMemberController@update')->middleware('auth:api');
+Route::delete('/group_member/{groupId}/{userId}', 'GroupMemberController@delete')->middleware('auth:api');
+
 
 // Route::group(['middleware' => 'auth:api'], function()
 // {
