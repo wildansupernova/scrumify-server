@@ -30,6 +30,10 @@ Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
 Route::put('/tasks/{taskId}', 'TaskController@update')->middleware('auth:api');
 Route::delete('/tasks/{taskId}', 'TaskController@delete')->middleware('auth:api');
 
+//Task Member
+Route::delete('/task_member', 'TasksMemberController@removeMember')->middleware('auth:api');
+Route::post('/task_member', 'TasksMemberController@addMember')->middleware('auth:api');
+
 // Route::group(['middleware' => 'auth:api'], function()
 // {
 //     Route::resource('tasks','TaskController', ['except' => ['index', 'edit', 'create']]);
