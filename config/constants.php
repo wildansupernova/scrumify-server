@@ -3,8 +3,8 @@
 return [
     'STATUS_KANBAN' => [
         'PRODUCT_BACKLOG' => 'PRODUCT_BACKLOG',
-        'OPEN' => 'OPEN',
-        'WIP' => 'WIP',
+        'OPEN' => 'TODO',
+        'WIP' => 'ONPROGRESS',
         'DONE' => 'DONE',
     ]
 ];
