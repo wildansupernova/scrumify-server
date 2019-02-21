@@ -4,12 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GroupsMember extends Model
+/**
+ * @property int $group_id
+ * @property int $user_id
+ * @property string $role
+ * @property int $score
+ * @property string $created_at
+ * @property string $updated_at
+ * @property Group $group
+ * @property User $user
+ */
+class GroupMember extends Model
 {
-    //
-    protected $table = 'groups_member';
+    protected $table = 'group_details';
     public $incrementing = false;
-    protected $primaryKey = ['group_id', 'user_id']; 
+    protected $primaryKey = ['group_id', 'user_id'];
     /**
      * Set the keys for a save update query.
      *
@@ -47,5 +56,13 @@ class GroupsMember extends Model
         }
 
         return $this->getAttribute($keyName);
+    }
+
+    public function group() {
+        return $this->belongsTo('App\Group', 'group_id', 'group_id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 }
