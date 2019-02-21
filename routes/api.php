@@ -27,6 +27,7 @@ Route::post('/tasks', 'TaskController@store')->middleware('auth:api');
 Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
 Route::put('/tasks/{taskId}', 'TaskController@update')->middleware('auth:api');
 Route::delete('/tasks/{taskId}', 'TaskController@delete')->middleware('auth:api');
+Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroup')->middleware('auth:api');
 
 //Task Member
 Route::delete('/task_member', 'TasksMemberController@removeMember')->middleware('auth:api');

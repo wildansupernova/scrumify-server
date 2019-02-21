@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\Group;
 use App\TasksMember;
 class TaskController extends Controller
 {
@@ -128,5 +129,14 @@ class TaskController extends Controller
             'data' => NULL,
             'statusMessage'=> 'success',
         ]), 200);
+    }
+
+
+    public function getTasksFromGroupId(Request $req, $groupId) {
+        $tasks = Group::find($groupId)->tasks;
+        return response(json_encode([
+            'data' => $tasks->toArray(),
+            'statusMessage' => 'success'
+        ]), 400);
     }
 }

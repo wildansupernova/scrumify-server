@@ -107,4 +107,8 @@ class GroupController extends Controller
             'group_name' => 'required'
         ]);
     }
+
+    public function tasks() {
+        $this->hasMany('App\Task', 'group_id');
+    }
 }
