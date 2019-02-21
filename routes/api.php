@@ -28,6 +28,18 @@ Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
 Route::put('/tasks/{taskId}', 'TaskController@update')->middleware('auth:api');
 Route::delete('/tasks/{taskId}', 'TaskController@delete')->middleware('auth:api');
 
+//Group
+Route::post('/tasks', 'GroupController@store')->middleware('auth:api');
+Route::get('/tasks/{groupId}', 'GroupController@show')->middleware('auth:api');
+Route::put('/tasks', 'GroupController@update')->middleware('auth:api');
+Route::delete('/tasks', 'GroupController@delete')->middleware('auth:api');
+
+//GroupMember
+Route::post('/tasks', 'GroupMemberController@store')->middleware('auth:api');
+Route::get('/tasks/{groupId}', 'GroupMemberController@show')->middleware('auth:api');
+Route::put('/tasks/{groupId}/{userId}', 'GroupMemberController@update')->middleware('auth:api');
+Route::delete('/tasks/{groupId}/{userId}', 'GroupMemberController@delete')->middleware('auth:api');
+
 // Route::group(['middleware' => 'auth:api'], function()
 // {
 //     Route::resource('tasks','TaskController', ['except' => ['index', 'edit', 'create']]);

@@ -91,7 +91,7 @@ class GroupMemberController extends Controller
         }
     }
 
-    public function destroy($groupId, $userId) {        
+    public function destroy(Request $request, $groupId, $userId) {        
         $groupMember = GroupMember::find($groupId);
 
         if (is_null($groupDetails)) {
