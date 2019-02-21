@@ -22,8 +22,6 @@ Route::post('/login', 'UserController@generateToken');
 Route::post('/logout', 'UserController@logOut')->middleware('auth:api');
 
 
-
-
 //Task
 Route::post('/tasks', 'TaskController@store')->middleware('auth:api');
 Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
