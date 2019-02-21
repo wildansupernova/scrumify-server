@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GroupsMember extends Model
+class GroupGameScore extends Model
 {
     //
-    protected $table = 'groups_member';
+    protected $table = 'group_details';
     public $incrementing = false;
-    protected $primaryKey = ['group_id', 'user_id']; 
-    /**
+    protected $primaryKey = ['group_id', 'user_id'];
+        /**
      * Set the keys for a save update query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
