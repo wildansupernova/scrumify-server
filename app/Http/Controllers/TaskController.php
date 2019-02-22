@@ -133,10 +133,10 @@ class TaskController extends Controller
 
 
     public function getTasksFromGroupId(Request $req, $groupId) {
-        $tasks = Group::find($groupId)->tasks;
+        $tasks = Task::where('group_id', $groupId)->get();
         return response(json_encode([
             'data' => $tasks->toArray(),
             'statusMessage' => 'success'
-        ]), 400);
+        ]), 200);
     }
 }

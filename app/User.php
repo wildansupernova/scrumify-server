@@ -6,6 +6,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Nexmo\Network\Number\Request;
+use App\GroupMember;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -37,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function getGroups($userId) {
+        $groups = DB::table('group_member')->select('user_id','high_score','groups.created_at','groups.updated_at','id', 'group_name','description')->join('groups','group_member.group_id','=','groups.id')->where('user_id',$userId)->get();
+        return $groups;
+    }
 }

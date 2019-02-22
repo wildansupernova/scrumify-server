@@ -69,4 +69,11 @@ class UserController extends Controller
             'statusMessage'=> "success",
         ]), 200);
     }
+
+    public function getGroups($userId){
+        return response(json_encode([
+            'data' => User::getGroups($userId)->toArray(),
+            'statusMessage'=> "success",
+        ]), 200);
+    }
 }

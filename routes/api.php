@@ -22,6 +22,10 @@ Route::post('/login', 'UserController@generateToken');
 Route::post('/logout', 'UserController@logOut');
 
 
+//User
+Route::get('/user/{userId}/groups', 'UserController@getGroups');
+
+
 //Task
 Route::post('/tasks', 'TaskController@store');
 Route::get('/tasks/{taskId}', 'TaskController@show');
@@ -33,7 +37,7 @@ Route::delete('/task_member', 'TasksMemberController@removeMember');
 Route::post('/task_member', 'TasksMemberController@addMember');
 
 //Get Group Task
-Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroup');
+Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroupId');
 
 //Group
 Route::post('/group', 'GroupController@store');
