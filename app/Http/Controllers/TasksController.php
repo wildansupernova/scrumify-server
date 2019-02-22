@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Task;
-use App\Group;
+use App\Tasks;
+use App\Groups;
 use App\TasksMember;
 class TaskController extends Controller
 {
@@ -31,7 +31,7 @@ class TaskController extends Controller
                 'description' => $request->description,
                 'status_kanban' => Config::get('constants.STATUS_KANBAN.PRODUCT_BACKLOG')
             ];
-            $task = Task::create($form);
+            $task = Tasks::create($form);
             return response(json_encode([
                 'data' => $task->toArray(),
                 'msg' => ['Success']
@@ -54,7 +54,7 @@ class TaskController extends Controller
         //
         $user = $request->user();
         
-        $task = Task::find($taskId)->first();
+        $task = Tasks::find($taskId)->first();
 
         if ($task) {
             $taskArr = $task->toArray();
@@ -94,7 +94,7 @@ class TaskController extends Controller
                 'status_kanban' => $request->status_kanban,
                 'complexity' => $request->complexity
             ];
-            $task = Task::find($taskId)->first();
+            $task = Tasks::find($taskId)->first();
             if ($task) {
                 $task->fill($form);
                 $task->save();
@@ -124,7 +124,7 @@ class TaskController extends Controller
      */
     public function destroy($taskId)
     {
-        Task::destroy($taskId);
+        Tasks::destroy($taskId);
         return response(json_encode([
             'data' => NULL,
             'statusMessage'=> 'success',
@@ -133,7 +133,7 @@ class TaskController extends Controller
 
 
     public function getTasksFromGroupId(Request $req, $groupId) {
-        $tasks = Group::find($groupId)->tasks;
+        $tasks = Groups::find($groupId)->tasks;
         return response(json_encode([
             'data' => $tasks->toArray(),
             'statusMessage' => 'success'

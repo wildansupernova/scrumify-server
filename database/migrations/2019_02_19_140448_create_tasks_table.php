@@ -16,12 +16,15 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('group_id');
-            $table->foreign('group_id')->references('id')->on('groups');
-            $table->string('taskname');
-            $table->string('description');
-            $table->string('status_kanban');
-            $table->integer('work_hour')->default(1);
+            $table->string('task_name');
+            $table->string('description')->default("");
+            $table->string('kanban_status')->index();
+            $table->integer('complexity');
             $table->timestamps();
+
+            $table->foreign('group_id')
+                ->references('id')->on('groups')
+                ->onDelete('cascade');
         });
     }
 

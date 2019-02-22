@@ -15,10 +15,16 @@ class CreateTasksMemberTable extends Migration
     {
         Schema::create('tasks_member', function (Blueprint $table) {
             $table->unsignedInteger('task_id');
-            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+
+            $table->primary(['task_id', 'user_id']);
+            $table->foreign('task_id')
+                ->references('id')->on('tasks')
+                ->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

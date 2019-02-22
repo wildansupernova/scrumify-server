@@ -11,23 +11,10 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        $groupsArr = [
-            [
-                'group_name' => 'group1',
-                'description' => 'group1yeah',
-            ],
-            [
-                'group_name' => 'group2',
-                'description' => 'group2yeah',
-            ],
-            [
-                'group_name' => 'group3',
-                'description' => 'group3yeah',
-            ]
-        ];
-
-        foreach ($groupsArr as $element) {
-            App\Group::create($element);
-        }
+        factory(App\Groups::class, 15)->create()->each(function ($groups) {
+            $members = Rand(5, 9);
+            $groupsMember = factory(App\GroupsMember::class, $members)->make();
+            $groups->members()->saveMany($groupsMember);
+        });
     }
 }

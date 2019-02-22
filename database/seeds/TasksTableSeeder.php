@@ -11,35 +11,9 @@ class TasksTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        $tasks = [
-            [
-                'group_id' => 1,
-                'taskname' => 'Bikin BlockChain',
-                'description' => 'Yeah Mancuyyy',
-                'status_kanban' => Config::get('constants.STATUS_KANBAN.PRODUCT_BACKLOG')
-            ],
-            [
-                'group_id' => 1,
-                'taskname' => 'Bikin BlockChain',
-                'description' => 'Yeah Mancuyyy',
-                'status_kanban' => Config::get('constants.STATUS_KANBAN.OPEN')
-            ],
-            [
-                'group_id' => 2,
-                'taskname' => 'Bikin BlockChain',
-                'description' => 'Yeah Mancuyyy',
-                'status_kanban' => Config::get('constants.STATUS_KANBAN.PRODUCT_BACKLOG')
-            ],
-            [
-                'group_id' => 2,
-                'taskname' => 'Bikin BlockChain',
-                'description' => 'Yeah Mancuyyy',
-                'status_kanban' => Config::get('constants.STATUS_KANBAN.OPEN')
-            ],
-        ];
-        foreach ($tasks as $element) {
-            App\Task::create($element);
-        }
+        factory(App\Tasks::class, 200)->create()->each(function ($task) {
+            $pic = factory(App\TasksMember::class)->make();
+            $task->pic()->save($pic);
+        });
     }
 }

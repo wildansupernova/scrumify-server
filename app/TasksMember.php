@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 class TasksMember extends Model
 {
-    //
     protected $table = 'tasks_member';
     public $incrementing = false;
     protected $primaryKey = ['task_id', 'user_id'];
@@ -47,5 +46,9 @@ class TasksMember extends Model
         }
 
         return $this->getAttribute($keyName);
+    }
+
+    public function task() {
+        return $this->belongsTo('App\Tasks', 'task_id');
     }
 }

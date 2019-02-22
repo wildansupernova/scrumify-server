@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Group;
+use App\Groups;
 
-class GroupController extends Controller
+class GroupsController extends Controller
 {
     public function store(Request $request) {
         $validator = $this->validate($request);
@@ -16,10 +16,10 @@ class GroupController extends Controller
             ]), 400);
         } else {
             $input = $request->all();
-            $isGroupExist = Group::find($input['group_id']);
+            $isGroupExist = Groups::find($input['group_id']);
 
             if (is_null($isGroupExist)) {
-                $group = Group::create([
+                $group = Groups::create([
                     'group_id' => $input['group_id'],
                     'group_name' => $input['group_name'],
                     'description' => $input['description']
@@ -39,7 +39,7 @@ class GroupController extends Controller
     }
 
     public function show(Request $request, $groupId) {
-        $isGroupExist = Group::find($groupId);
+        $isGroupExist = Groups::find($groupId);
 
         if (is_null($isGroupExist)) {
             return response(json_encode([
@@ -64,14 +64,14 @@ class GroupController extends Controller
             ]), 400);
         } else {
             $input = $request->all();
-            $isGroupExist = Group::find($input['group_id']);
+            $isGroupExist = Groups::find($input['group_id']);
 
             if (is_null($isGroupExist)) {
                 return response(json_encode([
                     'statusMessage' => 'Bad Request'
                 ]), 400);
             } else {
-                $group = Group::create([
+                $group = Groups::create([
                     'group_name' => $input['group_name'],
                     'description' => $input['description']
                 ]);
@@ -86,7 +86,7 @@ class GroupController extends Controller
     }
 
     public function destroy(Request $request, $groupId) {
-        $group = Group::find($groupId);
+        $group = Groups::find($groupId);
 
         if (is_null($group)) {
             return response(json_encode([

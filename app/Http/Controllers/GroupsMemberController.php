@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Group;
-use App\GroupMember;
+use App\Groups;
+use App\GroupsMember;
 use Validator;
 
-class GroupMemberController extends Controller
+class GroupsMemberController extends Controller
 {
     public function store(Request $request) {
         $validator = $this->validate($request);
@@ -18,8 +18,8 @@ class GroupMemberController extends Controller
             ]), 400);
         } else {
             $input = $request->all();
-            $isGroupMemberExist = GroupMember::find($input['group_id'])::find($input['user_id']);
-            $groupMember = GroupMember::create([
+            $isGroupMemberExist = GroupsMember::find($input['group_id'])::find($input['user_id']);
+            $groupMember = GroupsMember::create([
                 'group_id' => $input['group_id'],
                 'user_id' => $input['user_id'],
                 'role' => $input['role'],
@@ -44,7 +44,7 @@ class GroupMemberController extends Controller
     }
 
     public function show(Request $request, $groupId) {
-        $isGroupMemberExist = GroupMember::find($groupId);
+        $isGroupMemberExist = GroupsMember::find($groupId);
 
         if (is_null($groupMember)) {
             return response(json_decode([
@@ -69,12 +69,12 @@ class GroupMemberController extends Controller
             ]), 400);
         } else {
             $input = $request->all();
-            $groupMember = GroupMember::create([
+            $groupMember = GroupsMember::create([
                 'role' => $input['role'],
                 'high_score' => $input['high_score']
             ]);
 
-            $member = GroupMember::find($groupId)->find($userId);
+            $member = GroupsMember::find($groupId)->find($userId);
             if ($member) {
                 $member->fill($groupMember);
                 $member->save();
@@ -92,7 +92,7 @@ class GroupMemberController extends Controller
     }
 
     public function destroy(Request $request, $groupId, $userId) {        
-        $groupMember = GroupMember::find($groupId);
+        $groupMember = GroupsMember::find($groupId);
 
         if (is_null($groupDetails)) {
             return response(json_encode([

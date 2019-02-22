@@ -11,10 +11,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  */
-class Group extends Model
+class Groups extends Model
 {
     protected $table = 'groups';
     protected $primaryKey = 'id';
-    protected $fillable = ['group_name', 'description', 'created_at', 'updated_at'];
+    protected $fillable = ['group_name', 'description'];
     public $timestamps = true;
+
+    public function members()
+    {
+        return $this->hasMany('App\GroupsMember', 'group_id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany('App\Tasks', 'group_id');
+    }
 }

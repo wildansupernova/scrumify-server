@@ -14,14 +14,10 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\GroupsMember::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'google_id' => $faker->randomAscii,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => Str::random(10),
+        'user_id' => factory('App\User')->create()->id,
+        'role' => $faker->randomElement(Config::get('constants.ROLE')),
+        'high_score' => $faker->randomNumber
     ];
-
 });

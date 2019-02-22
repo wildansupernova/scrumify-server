@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
  * @property Group $group
  * @property User $user
  */
-class GroupMember extends Model
+class GroupsMember extends Model
 {
-    protected $table = 'group_member';
+    protected $table = 'groups_member';
     public $incrementing = false;
     protected $primaryKey = ['group_id', 'user_id'];
     /**
@@ -58,11 +58,15 @@ class GroupMember extends Model
         return $this->getAttribute($keyName);
     }
 
-    public function group() {
-        return $this->belongsTo('App\Group', 'group_id', 'group_id');
+    public function groups() {
+        return $this->belongsTo('App\Groups', 'group_id');
     }
 
-    public function user() {
-        return $this->belongsTo('App\User', 'user_id', 'id');
+    public function users() {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function tasks() {
+        return $this->hasMany('App\Tasks', 'id', 'task_id');
     }
 }

@@ -23,29 +23,30 @@ Route::post('/logout', 'UserController@logOut');
 
 
 //Task
-Route::post('/tasks', 'TaskController@store');
-Route::get('/tasks/{taskId}', 'TaskController@show');
-Route::put('/tasks/{taskId}', 'TaskController@update');
-Route::delete('/tasks/{taskId}', 'TaskController@delete');
+Route::post('/tasks', 'TasksController@store');
+Route::get('/tasks/{taskId}', 'TasksController@show');
+Route::put('/tasks/{taskId}', 'TasksController@update');
+Route::delete('/tasks/{taskId}', 'TasksController@delete');
 
 //Task Member
 Route::delete('/task_member', 'TasksMemberController@removeMember');
 Route::post('/task_member', 'TasksMemberController@addMember');
 
 //Get Group Task
-Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroup');
+Route::get('/group/{groupId}/tasks', 'TasksController@getTasksFromGroup');
 
 //Group
-Route::post('/group', 'GroupController@store');
-Route::get('/group/{groupId}', 'GroupController@show');
-Route::put('/group', 'GroupController@update');
-Route::delete('/group', 'GroupController@delete');
+Route::post('/group', 'GroupsController@store');
+Route::get('/group/{groupId}', 'GroupsController@show');
+Route::put('/group/{groupId}', 'GroupsController@update');
+Route::delete('/group/{groupId}', 'GroupsController@delete');
 
 //GroupMember
-Route::post('/group_member', 'GroupMemberController@store');
-Route::get('/group_member/{groupId}', 'GroupMemberController@show');
-Route::put('/group_member/{groupId}/{userId}', 'GroupMemberController@update');
-Route::delete('/group_member/{groupId}/{userId}', 'GroupMemberController@delete');
+Route::post('/group/member', 'GroupsMemberController@store');
+Route::get('/group/{groupId}/member', 'GroupsMemberController@show');
+Route::get('/group/{groupId}/members', 'GroupsMemberController@showAll');
+Route::put('/group/{groupId}/member/{userId}', 'GroupsMemberController@update');
+Route::delete('/group/{groupId}/member/{userId}', 'GroupsMemberController@delete');
 
 
 // Route::group(['middleware' => 'auth:api'], function()
