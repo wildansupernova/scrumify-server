@@ -31,6 +31,8 @@ Route::delete('/tasks/{taskId}', 'TaskController@delete');
 //Task Member
 Route::delete('/task_member', 'TasksMemberController@removeMember');
 Route::post('/task_member', 'TasksMemberController@addMember');
+
+//Get Group Task
 Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroup');
 
 //Group

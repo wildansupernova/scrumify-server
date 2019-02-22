@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Builder;
 /**
  * @property int $group_id
  * @property int $user_id
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class GroupMember extends Model
 {
-    protected $table = 'group_details';
+    protected $table = 'group_member';
     public $incrementing = false;
     protected $primaryKey = ['group_id', 'user_id'];
     /**

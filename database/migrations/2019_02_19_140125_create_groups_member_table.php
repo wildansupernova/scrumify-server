@@ -19,7 +19,7 @@ class CreateGroupsMemberTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->primary(['group_id', 'user_id']);
-            $table->string('role');
+            // $table->string('role');
             $table->unsignedInteger('high_score')->default(0);
             $table->timestamps();
         });

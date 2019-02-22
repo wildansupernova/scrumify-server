@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
             $table->string('taskname');
             $table->string('description');
             $table->string('status_kanban');
-            $table->integer('complexity');
+            $table->integer('work_hour')->default(1);
             $table->timestamps();
         });
     }
