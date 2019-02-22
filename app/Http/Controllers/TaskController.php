@@ -22,14 +22,15 @@ class TaskController extends Controller
         $result = $request->has([
             'group_id',
             'taskname',
-            'description'
+            'description',
+            'status_kanban'
         ]);
         if ($result) {
             $form = [
                 'group_id' => $request->group_id,
                 'taskname' => $request->taskname,
                 'description' => $request->description,
-                'status_kanban' => Config::get('constants.STATUS_KANBAN.PRODUCT_BACKLOG')
+                'status_kanban' => $request->status_kanban
             ];
             $task = Task::create($form);
             return response(json_encode([

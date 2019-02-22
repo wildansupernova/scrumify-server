@@ -4,38 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Group;
+use App\GroupMember;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
     public function store(Request $request) {
-        $validator = $this->validate($request);
+        $request->validate([
+            'group_name' => 'required',
+            'description' => 'required',
+            'user_id' => 'required',
+        ]);
+        $input = $request->all();
 
-        if ($validator->fails()) {
-            return response(json_encode([
-                'statusMessage' => 'Bad Request'
-            ]), 400);
-        } else {
-            $input = $request->all();
-            $isGroupExist = Group::find($input['group_id']);
+        
+        DB::beginTransaction();
 
-            if (is_null($isGroupExist)) {
-                $group = Group::create([
-                    'group_id' => $input['group_id'],
-                    'group_name' => $input['group_name'],
-                    'description' => $input['description']
-                ]);
-                $group->save();
-                
-                return response(json_encode([
-                    'statusMessage' => 'Success',
-                    'data' => $group->toArray()
-                ]), 200);
-            } else {
-                return response(json_encode([
-                    'statusMessage' => 'Bad Request'
-                ]), 400);
-            }
-        }
+        $group = Group::create([
+            'group_name' => $input['group_name'],
+            'description' => $input['description'],
+        ]);
+        GroupMember::create([
+            'group_id' => $group['id'],
+            'user_id' => $input['user_id'],
+            // 'role' => $input['role'],
+            'high_score' => 0
+        ]);
+
+        DB::commit();
+
+        
+        return response(json_encode([
+            'statusMessage' => 'success',
+            'data' => NULL
+        ]), 200);
     }
 
     public function show(Request $request, $groupId) {
@@ -56,7 +58,7 @@ class GroupController extends Controller
     }
 
     public function update(Request $request) {
-        $validator = $this->validate($request);
+        $validator = $this->validate2($request);
 
         if ($validator->fails()) {
             return response(json_encode([
@@ -101,7 +103,7 @@ class GroupController extends Controller
         }
     }
 
-    private function validate(Request $request) {
+    public function validate2(Request $request) {
         $input = $request->all();
         return Validator::make($input, [
             'group_name' => 'required'

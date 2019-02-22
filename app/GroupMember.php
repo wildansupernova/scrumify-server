@@ -19,6 +19,9 @@ class GroupMember extends Model
     protected $table = 'group_member';
     public $incrementing = false;
     protected $primaryKey = ['group_id', 'user_id'];
+    protected $fillable = [
+        'group_id', 'user_id'
+    ];
     /**
      * Set the keys for a save update query.
      *

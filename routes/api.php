@@ -23,31 +23,31 @@ Route::post('/logout', 'UserController@logOut');
 
 
 //User
-Route::get('/user/{userId}/groups', 'UserController@getGroups');
+Route::get('/user/{userId}/groups', 'UserController@getGroups'); //Bisa //Ambil Group yang dipunyai user
 
 
 //Task
-Route::post('/tasks', 'TaskController@store');
+Route::post('/tasks', 'TaskController@store'); //Bisa Menambah task
 Route::get('/tasks/{taskId}', 'TaskController@show');
 Route::put('/tasks/{taskId}', 'TaskController@update');
-Route::delete('/tasks/{taskId}', 'TaskController@delete');
+Route::delete('/tasks/{taskId}', 'TaskController@destroy'); //Bisa //Hapus Task
 
 //Task Member
-Route::delete('/task_member', 'TasksMemberController@removeMember');
-Route::post('/task_member', 'TasksMemberController@addMember');
+Route::delete('/task_member', 'TasksMemberController@removeMember'); //Bisa //delete member di task
+Route::post('/task_member', 'TasksMemberController@addMember'); //Bisa //Tambah member task
 
 //Get Group Task
-Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroupId');
+Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroupId'); //Bisa , ambil tasks dari suatu group
 
 //Group
-Route::post('/group', 'GroupController@store');
-Route::get('/group/{groupId}', 'GroupController@show');
+Route::post('/group', 'GroupController@store'); //Bisa //Bikin Group 
+Route::get('/group/{groupId}', 'GroupController@show'); // Bisa , ambil detail group
 Route::put('/group', 'GroupController@update');
 Route::delete('/group', 'GroupController@delete');
 
 //GroupMember
-Route::post('/group_member', 'GroupMemberController@store');
-Route::get('/group_member/{groupId}', 'GroupMemberController@show');
+Route::post('/group_member', 'GroupMemberController@store'); //Bisa //Nambah Group Member
+Route::get('/group_member/group/{groupId}', 'GroupMemberController@show'); //Bisa //Ambil member dari suatu group
 Route::put('/group_member/{groupId}/{userId}', 'GroupMemberController@update');
 Route::delete('/group_member/{groupId}/{userId}', 'GroupMemberController@delete');
 
