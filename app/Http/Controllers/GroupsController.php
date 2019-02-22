@@ -4,38 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Groups;
+use App\GroupsMember;
+use Illuminate\Support\Facades\DB;
 
 class GroupsController extends Controller
 {
     public function store(Request $request) {
-        $validator = $this->validate($request);
+        $request->validate([
+            'group_name' => 'required',
+            'description' => 'required',
+            'user_id' => 'required',
+        ]);
+        $input = $request->all();
 
-        if ($validator->fails()) {
-            return response(json_encode([
-                'statusMessage' => 'Bad Request'
-            ]), 400);
-        } else {
-            $input = $request->all();
-            $isGroupExist = Groups::find($input['group_id']);
+        
+        DB::beginTransaction();
 
-            if (is_null($isGroupExist)) {
-                $group = Groups::create([
-                    'group_id' => $input['group_id'],
-                    'group_name' => $input['group_name'],
-                    'description' => $input['description']
-                ]);
-                $group->save();
-                
-                return response(json_encode([
-                    'statusMessage' => 'Success',
-                    'data' => $group->toArray()
-                ]), 200);
-            } else {
-                return response(json_encode([
-                    'statusMessage' => 'Bad Request'
-                ]), 400);
-            }
-        }
+        $group = Groups::create([
+            'group_name' => $input['group_name'],
+            'description' => $input['description'],
+        ]);
+        GroupsMember::create([
+            'group_id' => $group['id'],
+            'user_id' => $input['user_id'],
+            'role' => $input['role'],
+            'high_score' => 0
+        ]);
+
+        DB::commit();
+
+        return response(json_encode([
+            'statusMessage' => 'success',
+            'data' => NULL
+        ]), 200);
     }
 
     public function show(Request $request, $groupId) {
@@ -55,22 +56,22 @@ class GroupsController extends Controller
         }
     }
 
-    public function update(Request $request) {
-        $validator = $this->validate($request);
+    public function update(Request $request, $groupId) {
+        $validator = $this->validate2($request);
 
         if ($validator->fails()) {
             return response(json_encode([
                 'statusMessage' => 'Bad Request'
             ]), 400);
         } else {
-            $input = $request->all();
-            $isGroupExist = Groups::find($input['group_id']);
+            $isGroupExist = Groups::find($groupId);
 
             if (is_null($isGroupExist)) {
                 return response(json_encode([
                     'statusMessage' => 'Bad Request'
                 ]), 400);
             } else {
+                $input = $request->all();
                 $group = Groups::create([
                     'group_name' => $input['group_name'],
                     'description' => $input['description']
@@ -101,7 +102,7 @@ class GroupsController extends Controller
         }
     }
 
-    private function validate(Request $request) {
+    public function validate2(Request $request) {
         $input = $request->all();
         return Validator::make($input, [
             'group_name' => 'required'
@@ -109,6 +110,6 @@ class GroupsController extends Controller
     }
 
     public function tasks() {
-        $this->hasMany('App\Task', 'group_id');
+        return $this->hasMany('App\Task', 'group_id');
     }
 }

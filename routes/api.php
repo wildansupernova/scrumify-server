@@ -22,29 +22,32 @@ Route::post('/login', 'UserController@generateToken');
 Route::post('/logout', 'UserController@logOut');
 
 
+//User
+Route::get('/user/{userId}/groups', 'UserController@getGroups'); //Bisa //Ambil Group yang dipunyai user
+
+
 //Task
-Route::post('/tasks', 'TasksController@store');
+Route::post('/tasks', 'TasksController@store'); //Bisa Menambah task
 Route::get('/tasks/{taskId}', 'TasksController@show');
 Route::put('/tasks/{taskId}', 'TasksController@update');
-Route::delete('/tasks/{taskId}', 'TasksController@delete');
+Route::delete('/tasks/{taskId}', 'TasksController@destroy'); //Bisa //Hapus Task
 
 //Task Member
-Route::delete('/task_member', 'TasksMemberController@removeMember');
-Route::post('/task_member', 'TasksMemberController@addMember');
+Route::delete('/task_member', 'TasksMemberController@removeMember'); //Bisa //delete member di task
+Route::post('/task_member', 'TasksMemberController@addMember'); //Bisa //Tambah member task
 
 //Get Group Task
-Route::get('/group/{groupId}/tasks', 'TasksController@getTasksFromGroup');
+Route::get('/group/{groupId}/tasks', 'TasksController@getTasksFromGroupId'); //Bisa , ambil tasks dari suatu group
 
 //Group
-Route::post('/group', 'GroupsController@store');
-Route::get('/group/{groupId}', 'GroupsController@show');
+Route::post('/group', 'GroupsController@store'); //Bisa //Bikin Group 
+Route::get('/group/{groupId}', 'GroupsController@show'); // Bisa , ambil detail group
 Route::put('/group/{groupId}', 'GroupsController@update');
 Route::delete('/group/{groupId}', 'GroupsController@delete');
 
 //GroupMember
-Route::post('/group/member', 'GroupsMemberController@store');
-Route::get('/group/{groupId}/member', 'GroupsMemberController@show');
-Route::get('/group/{groupId}/members', 'GroupsMemberController@showAll');
+Route::post('/group/member', 'GroupsMemberController@store'); //Bisa nambah Group Member
+Route::get('/group/{groupId}/members', 'GroupsMemberController@show'); //Bisa ambil seluruh member dari suatu group
 Route::put('/group/{groupId}/member/{userId}', 'GroupsMemberController@update');
 Route::delete('/group/{groupId}/member/{userId}', 'GroupsMemberController@delete');
 

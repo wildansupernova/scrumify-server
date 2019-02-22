@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Tasks;
 use App\Groups;
 use App\TasksMember;
-class TaskController extends Controller
+class TasksController extends Controller
 {
 
     /**
@@ -22,14 +22,15 @@ class TaskController extends Controller
         $result = $request->has([
             'group_id',
             'taskname',
-            'description'
+            'description',
+            'kanban_status'
         ]);
         if ($result) {
             $form = [
                 'group_id' => $request->group_id,
                 'taskname' => $request->taskname,
                 'description' => $request->description,
-                'status_kanban' => Config::get('constants.STATUS_KANBAN.PRODUCT_BACKLOG')
+                'kanban_status' => $request->status_kanban
             ];
             $task = Tasks::create($form);
             return response(json_encode([
@@ -82,16 +83,16 @@ class TaskController extends Controller
     {
         $user = $request->user();
         $result = $request->has([
-            'taskname',
+            'task_name',
             'description',
-            'status_kanban',
+            'kanban_status',
             'complexity'
         ]);
         if ($result) {
             $form = [
-                'taskname' => $request->taskname,
+                'task_name' => $request->taskname,
                 'description' => $request->description,
-                'status_kanban' => $request->status_kanban,
+                'kanban_status' => $request->status_kanban,
                 'complexity' => $request->complexity
             ];
             $task = Tasks::find($taskId)->first();
@@ -122,7 +123,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($taskId)
+    public function destroy(Request $request, $taskId)
     {
         Tasks::destroy($taskId);
         return response(json_encode([
@@ -131,12 +132,11 @@ class TaskController extends Controller
         ]), 200);
     }
 
-
     public function getTasksFromGroupId(Request $req, $groupId) {
-        $tasks = Groups::find($groupId)->tasks;
+        $tasks = Tasks::where('group_id', $groupId)->get();
         return response(json_encode([
             'data' => $tasks->toArray(),
             'statusMessage' => 'success'
-        ]), 400);
+        ]), 200);
     }
 }
