@@ -12,38 +12,38 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/wildan', 'UserController@testMasukAuthAPI')->middleware('auth:api');
+Route::get('/wildan', 'UserController@testMasukAuthAPI');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
 Route::post('/login', 'UserController@generateToken');
-Route::post('/logout', 'UserController@logOut')->middleware('auth:api');
+Route::post('/logout', 'UserController@logOut');
 
 
 //Task
-Route::post('/tasks', 'TaskController@store')->middleware('auth:api');
-Route::get('/tasks/{taskId}', 'TaskController@show')->middleware('auth:api');
-Route::put('/tasks/{taskId}', 'TaskController@update')->middleware('auth:api');
-Route::delete('/tasks/{taskId}', 'TaskController@delete')->middleware('auth:api');
-Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroup')->middleware('auth:api');
+Route::post('/tasks', 'TaskController@store');
+Route::get('/tasks/{taskId}', 'TaskController@show');
+Route::put('/tasks/{taskId}', 'TaskController@update');
+Route::delete('/tasks/{taskId}', 'TaskController@delete');
 
 //Task Member
-Route::delete('/task_member', 'TasksMemberController@removeMember')->middleware('auth:api');
-Route::post('/task_member', 'TasksMemberController@addMember')->middleware('auth:api');
+Route::delete('/task_member', 'TasksMemberController@removeMember');
+Route::post('/task_member', 'TasksMemberController@addMember');
+Route::get('/group/{groupId}/tasks', 'TaskController@getTasksFromGroup');
 
 //Group
-Route::post('/group', 'GroupController@store')->middleware('auth:api');
-Route::get('/group/{groupId}', 'GroupController@show')->middleware('auth:api');
-Route::put('/group', 'GroupController@update')->middleware('auth:api');
-Route::delete('/group', 'GroupController@delete')->middleware('auth:api');
+Route::post('/group', 'GroupController@store');
+Route::get('/group/{groupId}', 'GroupController@show');
+Route::put('/group', 'GroupController@update');
+Route::delete('/group', 'GroupController@delete');
 
 //GroupMember
-Route::post('/group_member', 'GroupMemberController@store')->middleware('auth:api');
-Route::get('/group_member/{groupId}', 'GroupMemberController@show')->middleware('auth:api');
-Route::put('/group_member/{groupId}/{userId}', 'GroupMemberController@update')->middleware('auth:api');
-Route::delete('/group_member/{groupId}/{userId}', 'GroupMemberController@delete')->middleware('auth:api');
+Route::post('/group_member', 'GroupMemberController@store');
+Route::get('/group_member/{groupId}', 'GroupMemberController@show');
+Route::put('/group_member/{groupId}/{userId}', 'GroupMemberController@update');
+Route::delete('/group_member/{groupId}/{userId}', 'GroupMemberController@delete');
 
 
 // Route::group(['middleware' => 'auth:api'], function()
