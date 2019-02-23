@@ -8,7 +8,7 @@ use App\Groups;
 use App\TasksMember;
 use Illuminate\Support\Facades\DB;
 use function GuzzleHttp\json_encode;
-class TaskController extends Controller
+class TasksController extends Controller
 {
 
     /**
@@ -23,16 +23,16 @@ class TaskController extends Controller
         $user = $request->user();
         $result = $request->has([
             'group_id',
-            'taskname',
+            'task_name',
             'description',
             'kanban_status'
         ]);
         if ($result) {
             $form = [
                 'group_id' => $request->group_id,
-                'taskname' => $request->taskname,
+                'task_name' => $request->task_name,
                 'description' => $request->description,
-                'kanban_status' => $request->status_kanban
+                'kanban_status' => $request->kanban_status
             ];
             $task = Tasks::create($form);
             return response(json_encode([
@@ -88,14 +88,14 @@ class TaskController extends Controller
             'task_name',
             'description',
             'kanban_status',
-            'complexity'
+            'work_hour'
         ]);
         if ($result) {
             $form = [
-                'task_name' => $request->taskname,
+                'task_name' => $request->task_name,
                 'description' => $request->description,
-                'kanban_status' => $request->status_kanban,
-                'complexity' => $request->complexity
+                'kanban_status' => $request->kanban_status,
+                'work_hour' => $request->work_hour
             ];
             $task = Tasks::find($taskId)->first();
             if ($task) {
@@ -145,7 +145,7 @@ class TaskController extends Controller
             $taskNotIn = DB::table('tasks')
             ->select('tasks.id','tasks.group_id','task_name','description', 'kanban_status', 'work_hour','tasks.created_at','tasks.updated_at', DB::raw('"-" as assignee'))
             ->where([
-                'status_kanban' => $req->status_kanban,
+                'kanban_status' => $req->kanban_status,
                 'tasks.group_id'=> $groupId,
             ])->whereNotIn('id', $idTaskMemberArr);
 
@@ -153,7 +153,7 @@ class TaskController extends Controller
             ->select('tasks.id','tasks.group_id','task_name','description', 'kanban_status', 'work_hour','tasks.created_at','tasks.updated_at','users.name as assignee')
             ->join('tasks_member','tasks.id','=','task_id')
             ->join('users','users.id','=','tasks_member.user_id')->where([
-                'kanban_status' => $req->status_kanban,
+                'kanban_status' => $req->kanban_status,
                 'tasks.group_id'=> $groupId,
             ])->union($taskNotIn)->get();
             return response(json_encode([

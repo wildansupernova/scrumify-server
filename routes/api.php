@@ -24,6 +24,7 @@ Route::post('/logout', 'UserController@logOut');
 
 //User
 Route::get('/user/{userId}/groups', 'UserController@getGroups'); //Bisa //Ambil Group yang dipunyai user
+Route::get('/user/email/{email}', 'UserController@getUserByEmail'); //Bisa //Ambil user dengan param email
 
 
 //Task
@@ -54,5 +55,5 @@ Route::delete('/group/{groupId}/member/{userId}', 'GroupsMemberController@delete
 
 // Route::group(['middleware' => 'auth:api'], function()
 // {
-//     Route::resource('tasks','TaskController', ['except' => ['index', 'edit', 'create']]);
+//     Route::resource('tasks','TasksController', ['except' => ['index', 'edit', 'create']]);
 // });

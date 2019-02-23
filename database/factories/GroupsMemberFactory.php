@@ -17,7 +17,7 @@ use Faker\Generator as Faker;
 $factory->define(App\GroupsMember::class, function (Faker $faker) {
     return [
         'user_id' => factory('App\User')->create()->id,
-        'role' => $faker->randomElement(Config::get('constants.ROLE')),
+        // 'role' => $faker->randomElement(Config::get('constants.ROLE')),
         'high_score' => $faker->randomNumber
     ];
 });

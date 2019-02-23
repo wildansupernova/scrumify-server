@@ -43,7 +43,7 @@ class User extends Authenticatable
     ];
 
     public static function getGroups($userId) {
-        $groups = DB::table('group_member')->select('user_id','high_score','groups.created_at','groups.updated_at','group_id', 'group_name','description')->join('groups','group_member.group_id','=','groups.id')->where('user_id',$userId)->get();
+        $groups = DB::table('groups_member')->select('user_id','high_score','groups.created_at','groups.updated_at','group_id', 'group_name','description')->join('groups','groups_member.group_id','=','groups.id')->where('user_id',$userId)->get();
         return $groups;
     }
 }

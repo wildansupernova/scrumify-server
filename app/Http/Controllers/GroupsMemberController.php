@@ -30,30 +30,30 @@ class GroupsMemberController extends Controller
                     'data' => NULL
                 ]), 404);
             } 
-            $groupMember = GroupMember::where([
+            $groupMember = GroupsMember::where([
                 'user_id' => $user->id,
                 'group_id' => $input['group_id']
             ])->first();
 
 
-            $group = Group::find($input['group_id']);
+            $group = Groups::find($input['group_id']);
 
             if (is_null($group)) {
                 return response(json_encode([
-                    'statusMessage' => 'Bad Request'
-                ]), 400);
+                    'statusMessage' => 'error'
+                ]), 404);
             } else {
                 if (is_null($groupMember)) {
-                    $groupMember = GroupMember::create([
+                    $groupMember = GroupsMember::create([
                         'group_id' => $input['group_id'],
                         'user_id' => $user->id,
-                        'role' => $input['role'],
+                        // 'role' => $input['role'],
                         'high_score' => 0
                     ]);
                 }
                 return response(json_encode([
                     'statusMessage' => 'success',
-                    'data' => $groupMember->toArray()
+                    'data' => NULL
                 ]), 200);
             }
         }
@@ -63,7 +63,7 @@ class GroupsMemberController extends Controller
         $group = Groups::find($groupId);
 
         if (!is_null($group)) {
-            $users = DB::table('groups_member')->select('user_id', 'role', 'high_score','groups.created_at','groups.updated_at','group_id', 'group_name','description')->join('groups','groups_member.group_id','=','groups.id')->where('group_id',$groupId)->get();
+            $users = DB::table('groups_member')->select('user_id', 'high_score','groups.created_at','groups.updated_at','group_id', 'group_name','description')->join('groups','groups_member.group_id','=','groups.id')->where('group_id',$groupId)->get();
             return response(json_encode([
                 'statusMessage' => 'success',
                 'data' => $users->toArray()
@@ -86,7 +86,7 @@ class GroupsMemberController extends Controller
         } else {
             $input = $request->all();
             $groupMember = GroupsMember::create([
-                'role' => $input['role'],
+                // 'role' => $input['role'],
                 'high_score' => $input['high_score']
             ]);
 
@@ -97,7 +97,7 @@ class GroupsMemberController extends Controller
 
                 return response(json_encode([
                     'statusMessage' => 'Success',
-                    'data' => $member->toArray()
+                    'data' => NULL
                 ]), 200);
             } else {
                 return response(json_encode([
@@ -126,7 +126,7 @@ class GroupsMemberController extends Controller
     private function validate2(Request $request) {
         $input = $request->all();
         return Validator::make($input, [
-            'role' => 'required',
+            // 'role' => 'required',
             'high_score' => 'required'
         ]);
     }

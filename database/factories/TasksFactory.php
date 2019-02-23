@@ -19,6 +19,6 @@ $factory->define(App\Tasks::class, function (Faker $faker) {
         'task_name' => $faker->sentence($nbWords = 3),
         'description' => array_random([$faker->text($maxNbChars = 50), ""]),
         'kanban_status' => $faker->randomElement(Config::get('constants.KANBAN_STATUS')),
-        'complexity' => $faker->numberBetween($min = 1, $max = 100),
+        'work_hour' => $faker->numberBetween($min = 1, $max = 100),
     ];
 });

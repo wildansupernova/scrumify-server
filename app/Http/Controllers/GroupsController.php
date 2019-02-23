@@ -27,7 +27,7 @@ class GroupsController extends Controller
         GroupsMember::create([
             'group_id' => $group['id'],
             'user_id' => $input['user_id'],
-            'role' => $input['role'],
+            // 'role' => $input['role'],
             'high_score' => 0
         ]);
 
@@ -35,7 +35,7 @@ class GroupsController extends Controller
 
         return response(json_encode([
             'statusMessage' => 'success',
-            'data' => NULL
+            'data' => $group->toArray()
         ]), 200);
     }
 
@@ -80,7 +80,7 @@ class GroupsController extends Controller
     
                 return response(json_encode([
                     'statusMessage' => 'Success',
-                    'data' => $group->toArray()
+                    'data' => NULL
                 ]), 200);
             }
         }

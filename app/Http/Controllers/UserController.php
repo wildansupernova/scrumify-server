@@ -7,6 +7,8 @@ use App\User;
 use App\Group;
 use Google_Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use function GuzzleHttp\json_encode;
 
 class UserController extends Controller
 {
@@ -30,12 +32,14 @@ class UserController extends Controller
                     ]);
                 } else {
                     // Not Found 
+                    DB::beginTransaction();
                     $user = User::create([
                         'name' => $payload['name'],
                         'email' => $payload['email'],
                         'google_id' => $userid,
                     ]);
                     $token = $user->createToken('accessToken')->accessToken;
+                    DB::commit();
                     $user['token'] = $token;
                     return json_encode([
                         'data' => $user->toArray(),
@@ -75,5 +79,22 @@ class UserController extends Controller
             'data' => User::getGroups($userId)->toArray(),
             'statusMessage'=> "success",
         ]), 200);
+    }
+
+    public function getUserByEmail($email) {
+        $user = User::where('email',$email)->first();
+
+        if ($user) {
+            $user['token'] = NULL;
+            return response(json_encode([
+                'statusMessage'=> "success",
+                'data' => $user->toArray()
+            ]),200);
+        } else {
+            return response(json_encode([
+                'statusMessage'=> "success",
+                'data' => NULL
+            ]),404);           
+        }
     }
 }

@@ -16,7 +16,7 @@ class CreateGroupsMemberTable extends Migration
         Schema::create('groups_member', function (Blueprint $table) {
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('user_id');
-            $table->string('role');
+            // $table->string('role')->default("Nothing");
             $table->unsignedInteger('high_score')->default(0);
             $table->timestamps();
 
