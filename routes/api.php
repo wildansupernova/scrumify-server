@@ -33,6 +33,8 @@ Route::get('/tasks/{taskId}', 'TasksController@show');
 Route::put('/tasks/{taskId}', 'TasksController@update');
 Route::delete('/tasks/{taskId}', 'TasksController@destroy'); //Bisa //Hapus Task
 
+Route::put('/task/move/{taskId}', 'TasksController@moveTask'); 
+
 //Task Member
 Route::delete('/task_member', 'TasksMemberController@removeMember'); //Bisa //delete member di task
 Route::post('/task_member', 'TasksMemberController@addMember'); //Bisa //Tambah member task

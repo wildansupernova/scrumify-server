@@ -9,7 +9,7 @@ class Tasks extends Model
 
     protected $fillable = [
         'group_id', 'task_name',
-        'description', 'kanban_status'
+        'description', 'kanban_status', 'work_hour'
     ];
 
     public function groups()

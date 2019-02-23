@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Tasks;
 use App\Groups;
 use App\TasksMember;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use function GuzzleHttp\json_encode;
 class TasksController extends Controller
@@ -20,28 +21,29 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         //
-        $user = $request->user();
         $result = $request->has([
             'group_id',
             'task_name',
             'description',
-            'kanban_status'
+            'kanban_status',
+            'work_hour'
         ]);
         if ($result) {
             $form = [
                 'group_id' => $request->group_id,
                 'task_name' => $request->task_name,
                 'description' => $request->description,
-                'kanban_status' => $request->kanban_status
+                'kanban_status' => $request->kanban_status,
+                'work_hour' => $request->work_hour
             ];
             $task = Tasks::create($form);
             return response(json_encode([
-                'data' => $task->toArray(),
-                'msg' => ['Success']
+                'data' => NULL,
+                'statusMessage' => 'success'
             ]), 200);
         } else {
             return response(json_encode([
-                'err' => ['Bad Request']
+                'statusMessage' => 'error'
             ]), 400);
         }
     }
@@ -169,6 +171,35 @@ class TasksController extends Controller
                 'data' => $tasks->toArray(),
                 'statusMessage' => 'success'
             ]), 200);
+        }
+    }
+
+
+
+    public function moveTask($taskId) {
+        $task = Tasks::where([
+            'id' => $taskId
+        ])->first();
+        if (is_null($task)) {
+            return response(json_encode([
+                'data' => NULL,
+                'statusMessage' => 'error'
+            ]), 404); 
+        } else {
+
+            switch($task->kanban_status) {
+                case Config::get('constants.KANBAN_STATUS.OPEN'): 
+                    $task->kanban_status = Config::get('constants.KANBAN_STATUS.WIP');
+                    break;
+                case Config::get('constants.KANBAN_STATUS.WIP'): 
+                    $task->kanban_status = Config::get('constants.KANBAN_STATUS.DONE');
+                    break;
+            }
+            $task->save();
+            return response(json_encode([
+                'data' => NULL,
+                'statusMessage' => 'success'
+            ]), 200); 
         }
     }
 }
