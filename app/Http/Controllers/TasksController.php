@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Tasks;
 use App\Groups;
 use App\TasksMember;
-class TasksController extends Controller
+use Illuminate\Support\Facades\DB;
+use function GuzzleHttp\json_encode;
+class TaskController extends Controller
 {
 
     /**
@@ -133,10 +135,40 @@ class TasksController extends Controller
     }
 
     public function getTasksFromGroupId(Request $req, $groupId) {
-        $tasks = Tasks::where('group_id', $groupId)->get();
-        return response(json_encode([
-            'data' => $tasks->toArray(),
-            'statusMessage' => 'success'
-        ]), 200);
+        if ($req->has(['kanban_status'])) {
+            $idTaskMember = TasksMember::all();
+            $idTaskMemberArr = array();
+            foreach($idTaskMember as $element){
+                array_push($idTaskMemberArr,$element['task_id']);
+            }
+            // echo(json_encode($idTaskMemberArr));
+            $taskNotIn = DB::table('tasks')
+            ->select('tasks.id','tasks.group_id','task_name','description', 'kanban_status', 'work_hour','tasks.created_at','tasks.updated_at', DB::raw('"-" as assignee'))
+            ->where([
+                'status_kanban' => $req->status_kanban,
+                'tasks.group_id'=> $groupId,
+            ])->whereNotIn('id', $idTaskMemberArr);
+
+            $tasksWithName = DB::table('tasks')
+            ->select('tasks.id','tasks.group_id','task_name','description', 'kanban_status', 'work_hour','tasks.created_at','tasks.updated_at','users.name as assignee')
+            ->join('tasks_member','tasks.id','=','task_id')
+            ->join('users','users.id','=','tasks_member.user_id')->where([
+                'kanban_status' => $req->status_kanban,
+                'tasks.group_id'=> $groupId,
+            ])->union($taskNotIn)->get();
+            return response(json_encode([
+                'data' => $tasksWithName->toArray(),
+                'statusMessage' => 'success'
+            ]), 200); 
+        } else {
+            $tasks = DB::table('tasks')
+            ->select('users.id','tasks.group_id','task_name','description', 'kanban_status', 'work_hour','tasks.created_at','tasks.updated_at','users.name')
+            ->join('tasks_member','tasks.id','=','task_id')
+            ->join('users','users.id','=','tasks_member.user_id')->get();            
+            return response(json_encode([
+                'data' => $tasks->toArray(),
+                'statusMessage' => 'success'
+            ]), 200);
+        }
     }
 }
