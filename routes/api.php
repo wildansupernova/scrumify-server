@@ -54,6 +54,8 @@ Route::get('/group/{groupId}/members', 'GroupsMemberController@show'); //Bisa am
 Route::put('/group/{groupId}/member/{userId}', 'GroupsMemberController@update');
 Route::delete('/group/{groupId}/member/{userId}', 'GroupsMemberController@delete');
 
+//Get History Group
+Route::get('/group/{groupId}/history', 'GroupHistoryController@getHistory'); //Bisa ambil seluruh member dari suatu group
 
 // Route::group(['middleware' => 'auth:api'], function()
 // {
