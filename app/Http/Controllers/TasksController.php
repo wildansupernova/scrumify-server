@@ -38,7 +38,7 @@ class TasksController extends Controller
             ];
             $task = Tasks::create($form);
             return response(json_encode([
-                'data' => NULL,
+                'data' => $task->toArray(),
                 'statusMessage' => 'success'
             ]), 200);
         } else {

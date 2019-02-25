@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -13,10 +14,10 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\GroupsMember::class, function (Faker $faker) {
+$factory->define(App\Comment::class, function (Faker $faker) {
     return [
-        'user_id' => factory('App\User')->create()->id,
-        // 'role' => $faker->randomElement(Config::get('constants.ROLE')),
-        'high_score' => $faker->randomNumber
+        'user_id' => App\User::pluck('id')->random(),
+        'comment' => $faker->text($maxNbChars = 50),
+        'task_id' => App\Tasks::pluck('id')->random()
     ];
 });

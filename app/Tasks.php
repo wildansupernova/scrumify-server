@@ -100,4 +100,16 @@ class Tasks extends Model
     // public function loggingInsertHistory(Tasks $item){
         
     // }
+
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'task_id');
+    }
+
+    public function getCommentsAttribute()
+    {
+        $comments = $this->comments()->getQuery()->orderBy('created_at', 'desc')->get();
+        return $comments;
+    }
 }
