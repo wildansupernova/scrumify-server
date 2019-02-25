@@ -57,6 +57,11 @@ Route::delete('/group/{groupId}/member/{userId}', 'GroupsMemberController@delete
 //Get History Group
 Route::get('/group/{groupId}/history', 'GroupHistoryController@getHistory'); //Bisa ambil seluruh member dari suatu group
 
+//Event
+Route::post('/group/events', 'EventsController@store');
+Route::get('/group/{groupId}/events', 'EventsController@show');
+Route::delete('/group/{groupId}/events', 'EventsController@destroy');
+
 
 Route::post('/user/{userId}/task/{taskId}/comment', 'CommentController@createCommentInTaskId');
 Route::get('/task/{taskId}/comment', 'CommentController@getCommentsFromTaskId');
