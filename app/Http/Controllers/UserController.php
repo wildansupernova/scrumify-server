@@ -61,10 +61,6 @@ class UserController extends Controller
         }
     }
 
-    public function testMasukAuthAPI(Request $req) {
-        return $req->user();
-    }
-
     public function logOut(Request $req) {
         $user = $req->user();
         $user->token()->revoke();
@@ -74,7 +70,17 @@ class UserController extends Controller
         ]), 200);
     }
 
-    public function getGroups($userId){
+    public function getId($userEmail) {
+        $user = User::where('email', $userEmail)->first();
+
+        if ($user) {
+            return response($user['id']);
+        } else {
+            return -1;
+        }
+    }
+
+    public function getGroups($userId) {
         return response(json_encode([
             'data' => User::getGroups($userId)->toArray(),
             'statusMessage'=> "success",

@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/wildan', 'UserController@testMasukAuthAPI');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -23,6 +22,7 @@ Route::post('/logout', 'UserController@logOut');
 
 
 //User
+Route::get('/email/{userEmail}', 'UserController@getId');
 Route::get('/user/{userId}/groups', 'UserController@getGroups'); //Bisa //Ambil Group yang dipunyai user
 Route::get('/user/email/{email}', 'UserController@getUserByEmail'); //Bisa //Ambil user dengan param email
 
